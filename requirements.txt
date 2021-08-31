@@ -1,0 +1,6 @@
+simpleaudio~=1.0.4
+opencv-python~=4.5.3.56
+numpy~=1.21.2
+mss~=6.1.0
+moviepy~=1.0.3
+pynput~=1.7.3
