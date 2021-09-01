@@ -9,12 +9,12 @@ class Hide(Turtle):
     def __init__(self):
         super(Hide, self).__init__()
         self.speed(0)
-        register_shape("sprites/wall.gif")
-        self.shape("sprites/wall.gif")
+        register_shape("sprites/stars-static.gif")
+        self.shape("sprites/stars-static.gif")
         self.hideturtle()
-        self.goto(0, -5)
+        self.goto(0, 38)
         self.penup()
-        self.showturtle()
+        self.hideturtle()
 
 
 
@@ -36,9 +36,9 @@ class Title(Turtle):
         self.speed(0)
         self.penup()
         self.hideturtle()
-        register_shape("sprites/Space_Invaders.gif")
-        self.shape("sprites/Space_Invaders.gif")
-        self.goto(0, 130)
+        register_shape("sprites/Space_Invaders_new.gif")
+        self.shape("sprites/Space_Invaders_new.gif")
+        self.goto(0, 38)
         self.showturtle()
 
 class PressSpace(Turtle):
@@ -52,7 +52,7 @@ class PressSpace(Turtle):
         self.hideturtle()
         register_shape("sprites/pressspace.gif")
         self.shape("sprites/pressspace.gif")
-        self.goto(0, -130)
+        self.goto(0, -150)
         self.showturtle()
         self.title_screen = True
         self.screen = screen
@@ -82,7 +82,7 @@ class BottomLine(Turtle):
         register_shape("sprites/b-line.gif")
         self.penup()
         self.shape("sprites/b-line.gif")
-        self.goto(0, -320)
+        self.goto(0, -303)
         self.showturtle()
 
 
@@ -164,7 +164,7 @@ class Score(Turtle):
         self.hideturtle()
         self.penup()
         self.color("white")
-        self.goto(-220, 352)
+        self.goto(-220, 342)
         self.count = 0
         self.draw()
 
@@ -183,7 +183,7 @@ class HiScore(Turtle):
         self.hideturtle()
         self.penup()
         self.color("white")
-        self.goto(180, 352)
+        self.goto(180, 342)
         self.count = 0
         self.get_hi_score()
         self.draw()

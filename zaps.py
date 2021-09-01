@@ -18,7 +18,7 @@ class Zap(Turtle):
         self.x = inv_x
         self.y = inv_y
         self.goto(self.x, self.y)
-        self.y_move = -5
+        self.y_move = -8
         self.showturtle()
         self.pause = False
         self.move()
@@ -32,7 +32,7 @@ class Zap(Turtle):
 class Zaps:
     def __init__(self):
         self.z_list = []
-        self.limiter_abs = 30
+        self.limiter_abs = 18
         self.limiter = self.limiter_abs
         self.pause = False
 

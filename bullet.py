@@ -12,8 +12,8 @@ class Bullet(Turtle):
         self.color("white")
         self.shapesize(stretch_wid=0.8, stretch_len=0.1)
         self.x = paddle_x
-        self.goto(self.x, -250)
-        self.y_move = 10
+        self.goto(self.x, -270)
+        self.y_move = 14
         self.showturtle()
         self.timer = 15
         self.pause = False

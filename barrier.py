@@ -34,7 +34,7 @@ class Barrier:
     """
     def __init__(self):
         self.brick_list = []
-        self.y_ref = -185
+        self.y_ref = -178
         self.create_barrier_1()
         self.create_barrier_2()
         self.create_barrier_3()

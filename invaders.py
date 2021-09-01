@@ -28,7 +28,7 @@ class Saucer(Turtle):
         self.current_shape = self.shape_1
         self.penup()
         self.shape(self.current_shape)
-        self.goto(-380, 330)
+        self.goto(-380, 325)
         self.points = 100
         self.showturtle()
 
@@ -166,9 +166,9 @@ class Invaders:
         self.mov_x = 4
         self.mov_y = -20
         self.start_time = None
-        self.timer = 35
-        self.timer_abs = 35
-        self.interval = 1.7
+        self.timer = 22
+        self.timer_abs = 22
+        self.interval = 3
         self.moved = False
         self.step_down = False
         self.completed = False
@@ -216,8 +216,7 @@ class Invaders:
         restes the invader list after gameover or level up.
         :return:
         """
-        self.timer_abs = 35
-        self.timer = 35
+
         x = self.init_x
         y = self.init_y
         for col in self.invader_list:
@@ -229,8 +228,7 @@ class Invaders:
                 y -= 54
             x += 52
             y = self.init_y
-        pprint(self.invader_list)
-        print(self.invader_list)
+
 
     def move(self):
         """
@@ -256,16 +254,16 @@ class Invaders:
                         self.saucer.hideturtle()
                         self.saucer.current_shape = self.saucer.shape_1
                         self.saucer.shape(self.saucer.current_shape)
-                        self.saucer.goto(-380, 330)
+                        self.saucer.goto(-380, 325)
                         self.saucer.showturtle()
                         self.saucer_count = 0
                     else:
-                        new_x = self.saucer.xcor() + self.saucer_mov
-                        self.saucer.goto(new_x, 330)
+                        new_x = self.saucer.xcor() + 9
+                        self.saucer.goto(new_x, 325)
                         self.saucer_timer = 1
                         if new_x > 380:
                             self.saucer.hideturtle()
-                            self.saucer.goto(-380, 330)
+                            self.saucer.goto(-380, 325)
                             self.saucer.showturtle()
                             self.saucer_count = 0
                 else:
@@ -291,11 +289,12 @@ class Invaders:
                                             new_y = (vader.ycor() + self.mov_y)
                                             vader.goto(vader.xcor(), new_y)
                                             vader.change_shape()
-                if time() - self.start_time > 1.7:
+                if time() - self.start_time > self.interval:
                     self.saucer_count += 1
                     print(self.saucer_count)
                     if self.timer_abs > 1:
                         self.timer_abs -= 1
+                        print(f"timer is {self.timer_abs}")
                     self.start_time = time()
 
                 self.timer = self.timer_abs

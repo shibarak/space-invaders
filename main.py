@@ -2,7 +2,7 @@ import time
 from turtle import Screen
 
 import simpleaudio as sa
-
+from stars import ImageLabel
 import pickle
 from audio import Audio
 from barrier import Barrier
@@ -159,8 +159,7 @@ def bullet_handler():
 
         for br in barrier.brick_list:
             if br.isvisible():
-                if b.distance(br) < 11 and b.ycor() > (br.ycor() + .5):
-                    print(len(barrier.brick_list))
+                if b.distance(br) < 10 and b.ycor() < br.ycor() + 2:
                     b.hideturtle()
                     b.goto(5000, 5000)
                     if br.current_shape == br.shape_1:
@@ -171,22 +170,22 @@ def bullet_handler():
         for col in invaders.invader_list:
             for inv in col:
                 if inv.isvisible():
-                    if b.distance(inv) < 20 and b.ycor() < (inv.ycor() + 2):
-                        score.count += inv.points
-                        score.draw()
-                        inv.current_shape = inv.shape_3
-                        inv.shape(inv.current_shape)
-                        inv_kill.play()
-                        ad = {"file": "audio/invaderkilled.wav",
-                              "time": (time.time() - audio.time)}
-                        audio.list.append(ad)
-                        b.hideturtle()
-                        try:
+                    if inv.current_shape == inv.shape_1 or inv.current_shape == inv.shape_2:
+                        if b.distance(inv) < 20 and b.ycor() < (inv.ycor() + 2):
+                            score.count += inv.points
+                            score.draw()
+                            inv.current_shape = inv.shape_3
+                            inv.shape(inv.current_shape)
+                            inv_kill.play()
+                            ad = {"file": "audio/invaderkilled.wav",
+                                  "time": (time.time() - audio.time)}
+                            audio.list.append(ad)
                             b.hideturtle()
-                            bullets.b_list.remove(b)
-                            print(bullets.b_list)
-                        except ValueError:
-                            pass
+                            try:
+                                b.hideturtle()
+                                bullets.b_list.remove(b)
+                            except ValueError:
+                                pass
         if b.ycor() > 330:  # delete offscreen bullets
             b.shape("sprites/bullet-splode.gif")
             bullets.dead_b_list.append(b)
@@ -207,7 +206,7 @@ def game_over():
     Displays the game over text and returns the game to it's initial level-01 state.
     :return:
     """
-    invaders.timer_abs = 35
+    invaders.timer_abs = 22
     level.number = 1
     invaders.interval = 1.7
     invaders.init_y = 270
@@ -234,7 +233,7 @@ def game_over():
     screen.onkey(fun=game, key="space")
     hide.showturtle()
     g_over.showturtle()
-    tank.shape("sprites/tank.gif")
+    tank.shape("sprites/tank-blue.gif")
     screen.update()
     score.count = 0
     lives.count = 3
@@ -255,10 +254,10 @@ def next_level():
     screen.update()
     screen.onclick(None)
     level.number += 1
-    invaders.interval -= .3
-    invaders.timer_abs -= 6
+    invaders.interval -= .1
+    invaders.timer_abs = 22 - level.number
     invaders.init_y -= 35
-    invaders.saucer_count += 4
+    invaders.saucer_count += 1
     zaps.limiter_abs -= 2
     for b in bullets.b_list:
         b.hideturtle()
@@ -281,6 +280,7 @@ def game():
     :return:
     invaders.game = False
     '''
+    gif_window.load("stars.gif")
     press_space.title_screen = False
     invaders.game = True
     BottomLine()
@@ -299,6 +299,7 @@ def game():
     screen.listen()
     screen.update()
     while invaders.game:
+        gif_window.next_frame(gif_window.loc, gif_window.frame_no)
         invaders.completed = True
         screen.onmove(move_handler)
         screen.tracer(0)
@@ -307,7 +308,7 @@ def game():
         move_sound()
         zaps.timer()
         # play sound when UFO comes on screen
-        if invaders.saucer.xcor() == -372:
+        if invaders.saucer.xcor() == -371:
             ufo_wav.play()
             ad = {"file": f"audio/ufo_lowpitch.wav",
                   "time": (time.time() - audio.time)}
@@ -370,10 +371,10 @@ def game():
                 except ValueError:
                     pass
                 for i in range(5):
-                    tank.shape("sprites/tank-splode.gif")
+                    tank.shape("sprites/splode-1.gif")
                     screen.update()
                     time.sleep(.1)
-                    tank.shape("sprites/tank-splode2.gif")
+                    tank.shape("sprites/splode-2.gif")
                     screen.update()
                     time.sleep(.1)
                 if lives.count <= 0:
@@ -381,7 +382,7 @@ def game():
                     invaders.game = False
                     return
                 screen.onmove(move_handler)
-                tank.shape("sprites/tank.gif")
+                tank.shape("sprites/tank-blue.gif")
             for br in barrier.brick_list:
                 if br.isvisible():
                     if z.distance(br) < 12 and z.ycor() > (br.ycor() - 2):
@@ -398,7 +399,7 @@ def game():
                         else:
                             br.hideturtle()
             if z.ycor() <= -310:
-                z.goto(z.xcor(), -320)
+                z.goto(z.xcor(), -303)
                 z.shape("sprites/ishot-dead.gif")
                 try:
                     zaps.z_list.remove(z)
@@ -415,8 +416,11 @@ def game():
 
 screen = Screen()
 screen.title("Space Invaders")
-screen.setup(680, 820)
+screen.setup(680, 800)
 screen.bgcolor("black")
+canvas = screen.getcanvas()
+gif_window = ImageLabel(canvas)
+
 
 
 lives = Lives()
@@ -435,6 +439,7 @@ level = Level()
 screen.listen()
 screen.onkey(fun=game, key="space")
 audio = Audio()
+BottomLine()
 title = Title()
 press_space = PressSpace(screen)
 press_space.flash()
